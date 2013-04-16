@@ -1,0 +1,34 @@
+.Object Name: sessions                                     Define: Helper_Sessions
+*    Version: 0002
+*
+*===============================================================================
+@. TODO - Might need to add category here as well to re-direct to services outside of current CAT
+@. TODO - Error notification if FDR below is not able to find the combination
+@. ---- Call Entry Point ----
+@0001:(<function>) .
+@.
+@. ---- Defined Functions ----
+@     if <function> eq 'sign_in(<user>)               ',(0010) . ; .
+@.    if <function> eq 'current_user=(<user>)         ',(0020) . ; .
+@.    if <function> eq 'current_user                  ',(0030) . ; .
+@.    if <function> eq 'signed_in?                    ',(0040) . ; .
+@.    if <function> eq 'sign_out                      ',(0050) . ; .
+@.    if <function> eq 'current_user?                 ',(0060) . ; .
+@.    if <function> eq 'authenticate                  ',(0070) . ; .
+@.    if <function> eq 'deny_access                   ',(0080) . ; .
+@.    if <function> eq 'redirect_back_or(<default>)   ',(0090) . ; .
+@.
+@.
+@. ---- Function :: sign_in(<user>)
+@.      Sign the user in to the application using a cookie
+@0010:.
+
+
+
+
+
+
+
+
+
+

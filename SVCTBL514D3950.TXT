@@ -1,0 +1,22 @@
+.Object Table  -  Category: sample_app_common
+*                         .D.    .Svc     .Acc.        .T.   .Sty .S.Sty .Template.W.J.            .
+*Service Name        .Cab .w.Rpt .Typ     .ess.Exdate  .P.Net.Cab .t.Rpt .Type    .I.S.Run Called  .
+*====================.====.=.====.========.===.========.=.===.====.=.====.========.=.=.============.================================
+	appconfig            458  I    2 DYN      DRT            On
+*appconfig            Title =application_helper
+	external_files       458  I    3 DYN      DRT            On
+*external_files       Title =application_helper
+	redirect             458  I    4 DYN      DRT            On
+*redirect             Title =application_helper
+	flash                458  I    5 DYN      DRT            On
+*flash                Title =application_helper
+	signin               458  I    6 DYN      DRT            On
+*signin               Title =application_helper
+	form_parts           458  I    7 DYN      DRT            Off
+*form_parts           Title =Form Parts - Used to get the action,method,class, id of a form
+	link_to              458  I    8 DYN      DRT            Off
+*link_to              Title =Form Parts - Used to get the action,method,class, id of a form
+	sessions             458  I    9 DYN      DRT            Off
+*sessions             Title =A session helper
+	timeAgo              458  I   10 DYN      DRT            Off
+*timeAgo              Title =A session helper

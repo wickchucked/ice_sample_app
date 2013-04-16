@@ -1,0 +1,25 @@
+.Object Name: form_parts                                   Define: Helper_Sign_In
+*    Version: 0001
+*
+*===============================================================================
+:INCLUDE,ECAB$,B,0002 .
+
+@. #############################################################################
+@. # This is used as a utitlity to find the correct parts of a form            #
+@. # action=<f_action>                                                         #
+@. # method=<f_meth>                                                           #
+@. # class=<f_class>                                                           #
+@. # id=<f_id>                                                                 #
+@. #############################################################################
+
+@0001:(<category>,<service>,<action>,<f_action>,<f_meth>,<f_class>,<f_id>) .
+@     fdr,Table_Form_Parts '' 'service','action' 	,<service>,<action> .
+@     rln 'formservice','formaction','formparams','formmethod','formclass','formid' \
+        <f_service>s,<nxt_action>h,<f_params>s,<f_meth>h,<f_class>s,<f_id>s .
+@. ---- Load the <f_action> variable
+@     ldv,p <nxt_action>,<f_params>,<f_service> .
+@     if <f_service> gt '' ldv,p <service>s20=<f_service> .
+@     ldv <f_action>=<*gurlcat>(p)<service>(p)'&action='<nxt_action> .
+@     ldv,p <f_action>,<f_meth>,<f_class>,<f_id> .
+@.
+@     return .

@@ -1,0 +1,6 @@
+.Style Guide - Category: sample_app
+*
+*Keyword     .Value                                                                                                                .
+*============.=====================================================================================================================.
+	BaseStyle    Sample_App
+*BaseStyle    Descr =Base stylesheet for all web applications

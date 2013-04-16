@@ -1,0 +1,21 @@
+.Object Name: routes                                       Define: Table_Routes
+*                    .            .rd                  .rd          .rd                                                                                                                      .
+*service             .action      .service             .action      .input                                                                                                                   .
+*====================.============.====================.============.========================================================================================================================.
+	users               	new         	                    	            	                                                                                                                        	
+	users               	create      	                    	show        	&signin=<signin>                                                                                                        	
+	users               	index       	                    	            	                                                                                                                        	
+	users               	edit        	                    	            	                                                                                                                        	
+	users               	update      	                    	show        	                                                                                                                        	
+	sessions            	signin      	users               	show        	&signin=<signin>                                                                                                        	
+	sessions            	destroy     	pages               	home        	&signout=<signout>                                                                                                      	
+	microposts          	create      	pages               	home        	                                                                                                                        	
+	microposts          	destroy     	pages               	home        	                                                                                                                        	
+
+ XXXXXXXXXXXXXXXXXXXX ---- The calling service
+                      XXXXXXXXXXXX ---- The calling action
+                                   XXXXXXXXXXXXXXXXXXXX ---- The service to redirect to (Only needed if different from service)
+                                                        XXXXXXXXXXXX ---- The action that will happen when the form is submitted
+                  Place the paramaters needing to be passed here ---- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                 You must first load a variable for this to work ---- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+ TODO fix this!  Cannot put &value=value or the program will die ---- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

@@ -1,0 +1,9 @@
+.Object Name: signin                                       Define: Helper_Sign_In
+*    Version: 0001
+*
+*===============================================================================
+@0001:(<email>,<password>,<status>) .
+@
+
+
+@esr .

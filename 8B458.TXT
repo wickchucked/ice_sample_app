@@ -1,0 +1,133 @@
+.Object Name: time_ago_in_words                            Define: Table_Time_Ago
+*  .          .                                        .
+*n .key       .time                                    .
+*==.==========.========================================.
+	 1	years     	1 year ago                              	
+	 2	years     	2 years ago                             	
+	 3	years     	3 years ago                             	
+	 4	years     	4 years ago                             	
+	 5	years     	5 years ago                             	
+	 6	years     	6 years ago                             	
+	 7	years     	7 years ago                             	
+	 8	years     	8 years ago                             	
+	 9	years     	9 years ago                             	
+	10	years     	10 years ago                            	
+	11	years     	11 years ago                            	
+	12	years     	12 years ago                            	
+	13	years     	13 years ago                            	
+	14	years     	14 years ago                            	
+	15	years     	15 years ago                            	
+	16	years     	16 years ago                            	
+	17	years     	17 years ago                            	
+	18	years     	18 years ago                            	
+	19	years     	19 years ago                            	
+	20	years     	20 years ago                            	
+	 1	months    	1 month ago                             	
+	 2	months    	2 months ago                            	
+	 3	months    	3 months ago                            	
+	 4	months    	4 months ago                            	
+	 5	months    	5 months ago                            	
+	 6	months    	6 months ago                            	
+	 7	months    	7 months ago                            	
+	 8	months    	8 months ago                            	
+	 9	months    	9 months ago                            	
+	10	months    	10 months ago                           	
+	11	months    	11 months ago                           	
+	12	months    	1 year ago                              	
+	 1	weeks     	about 1 week ago                        	
+	 2	weeks     	about 2 weeks ago                       	
+	 3	weeks     	about 3 weeks ago                       	
+	 4	weeks     	1 month ago                             	
+	 1	days      	1 day ago                               	
+	 2	days      	2 days ago                              	
+	 3	days      	3 days ago                              	
+	 4	days      	4 days ago                              	
+	 5	days      	5 days ago                              	
+	 6	days      	6 days ago                              	
+	 7	days      	1 week ago                              	
+	 0	hours     	less than an hour ago                   	
+	 1	hours     	about 1 hour ago                        	
+	 2	hours     	about 2 hours ago                       	
+	 3	hours     	about 3 hours ago                       	
+	 4	hours     	about 4 hours ago                       	
+	 5	hours     	about 5 hours ago                       	
+	 6	hours     	about 6 hours ago                       	
+	 7	hours     	about 7 hours ago                       	
+	 8	hours     	about 8 hours ago                       	
+	 9	hours     	about 9 hours ago                       	
+	10	hours     	about 10 hours ago                      	
+	11	hours     	about 11 hours ago                      	
+	12	hours     	about 12 hours ago                      	
+	13	hours     	about 13 hours ago                      	
+	14	hours     	about 14 hours ago                      	
+	15	hours     	about 15 hours ago                      	
+	16	hours     	about 16 hours ago                      	
+	17	hours     	about 17 hours ago                      	
+	18	hours     	about 18 hours ago                      	
+	19	hours     	about 19 hours ago                      	
+	20	hours     	about 20 hours ago                      	
+	21	hours     	about 21 hours ago                      	
+	22	hours     	about 22 hours ago                      	
+	23	hours     	about 23 hours ago                      	
+	24	hours     	a day ago                               	
+	 0	minutes   	less than a minute ago                  	
+	 1	minutes   	1 minute ago                            	
+	 2	minutes   	2 minutes ago                           	
+	 3	minutes   	3 minutes ago                           	
+	 4	minutes   	4 minutes ago                           	
+	 5	minutes   	5 minutes ago                           	
+	 6	minutes   	6 minutes ago                           	
+	 7	minutes   	7 minutes ago                           	
+	 8	minutes   	8 minutes ago                           	
+	 9	minutes   	 9 minutes ago                          	
+	10	minutes   	10 minutes ago                          	
+	11	minutes   	11 minutes ago                          	
+	12	minutes   	12 minutes ago                          	
+	13	minutes   	13 minutes ago                          	
+	14	minutes   	14 minutes ago                          	
+	15	minutes   	15 minutes ago                          	
+	16	minutes   	16 minutes ago                          	
+	17	minutes   	17 minutes ago                          	
+	18	minutes   	18 minutes ago                          	
+	19	minutes   	19 minutes ago                          	
+	20	minutes   	20 minutes ago                          	
+	21	minutes   	21 minutes ago                          	
+	22	minutes   	22 minutes ago                          	
+	23	minutes   	23 minutes ago                          	
+	24	minutes   	24 minutes ago                          	
+	25	minutes   	25 minutes ago                          	
+	26	minutes   	26 minutes ago                          	
+	27	minutes   	27 minutes ago                          	
+	28	minutes   	28 minutes ago                          	
+	29	minutes   	29 minutes ago                          	
+	30	minutes   	30 minutes ago                          	
+	31	minutes   	31 minutes ago                          	
+	32	minutes   	32 minutes ago                          	
+	33	minutes   	33 minutes ago                          	
+	34	minutes   	34 minutes ago                          	
+	35	minutes   	35 minutes ago                          	
+	36	minutes   	36 minutes ago                          	
+	37	minutes   	37 minutes ago                          	
+	38	minutes   	38 minutes ago                          	
+	39	minutes   	39 minutes ago                          	
+	40	minutes   	40 minutes ago                          	
+	41	minutes   	41 minutes ago                          	
+	42	minutes   	42 minutes ago                          	
+	43	minutes   	43 minutes ago                          	
+	44	minutes   	44 minutes ago                          	
+	45	minutes   	45 minutes ago                          	
+	46	minutes   	46 minutes ago                          	
+	47	minutes   	47 minutes ago                          	
+	48	minutes   	48 minutes ago                          	
+	49	minutes   	49 minutes ago                          	
+	50	minutes   	50 minutes ago                          	
+	51	minutes   	51 minutes ago                          	
+	52	minutes   	52 minutes ago                          	
+	53	minutes   	53 minutes ago                          	
+	54	minutes   	54 minutes ago                          	
+	55	minutes   	55 minutes ago                          	
+	56	minutes   	56 minutes ago                          	
+	57	minutes   	57 minutes ago                          	
+	58	minutes   	58 minutes ago                          	
+	59	minutes   	59 minutes ago                          	
+	60	minutes   	1 hour ago                              	

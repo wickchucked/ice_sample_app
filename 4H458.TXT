@@ -1,0 +1,106 @@
+.Object Name: sessions                                     Define: Helper_Sessions
+*    Version: 0001
+*
+*===============================================================================
+:DEFINE sign_in_user       'ECAB$,EDRW$,ERPT$ 0010'
+:DEFINE set_current_user   'ECAB$,EDRW$,ERPT$ 0020'
+:DEFINE get_current_user   'ECAB$,EDRW$,ERPT$ 0030'
+:DEFINE signed_in          'ECAB$,EDRW$,ERPT$ 0040'
+:DEFINE sign_out           'ECAB$,EDRW$,ERPT$ 0050'
+:DEFINE current_user       'ECAB$,EDRW$,ERPT$ 0060'
+:DEFINE authenticate       'ECAB$,EDRW$,ERPT$ 0070'
+:DEFINE deny_access        'ECAB$,EDRW$,ERPT$ 0080'
+:DEFINE redirect_back_def  'ECAB$,EDRW$,ERPT$ 0090'
+@.
+@.
+@0001:(<method>,<redirect>) . ---- Call Entry Point ----
+@.
+@. ---- Defined Functions ----
+@ rdb if <method> eq 'sign_in_user',(0010) . ; .
+@     if <method> eq 'current_user',(0020) . ; .
+@     if <method> eq 'current_user',(0030) . ; .
+@     if <method> eq 'signed_in',(0040) . ; .
+@     if <method> eq 'sign_out',(0050) . ; .
+@     if <method> eq 'current_user',(0060) . ; .
+@     if <method> eq 'authenticate',(0070) . ; .
+@     if <method> eq 'deny_access',(0080) . ; .
+@     if <method> eq 'redirect_back_or(<default>)',(0090) . ; .
+@
+@.
+@. ---- Function :: sign_in(<user>)
+@.      Sign the user in to the application using a cookie
+@0010:(<user>) .
+@     return .
+@.
+@. ---- Function :: current_user(<user>)
+@.      Re-initialize the current <user>
+@0020:(<user>) .
+@     return .
+@.
+@. ---- Function :: current_user
+@.      Get current user from remember token
+@0030:() .
+@     return .
+@.
+@. ---- Function :: signed_in?
+@.      Is the current user signed in
+@0040:() .
+@     return .
+@.
+@. ---- Function :: sign_out
+@.      Is the current user signed in
+@0050:() .
+@     return .
+@.
+@. ---- Function :: sign_out
+@.      Is the current user signed in
+@0060:() .
+@     return .
+@.
+@. ---- Function :: authenticate
+@0070:() .
+@.ew  if <*signedin> ne true call,deny_access (<redirect>) .
+@     return .
+@.
+@. ---- Function :: deny_access
+@0080:() .
+@.TODOstore_location
+@.TODOcall,store_location (<redirect>) .   Use an @CCC for this to save
+@     ldv <redirect>h4=true,<service>s20=sessions,<action>h12=signin .
+@.ew  redirect_to signin_path, :notice => "Please sign in to access this page."
+@     return .
+@.
+@. ---- Function :: redirect_back_or(default)
+@0090:() .
+@.    def redirect_back_or(default)
+@.      redirect_to(session[:return_to] || default)
+@.      clear_return_to
+@.    end
+@.
+@. ---- UnDefined Methods :: Private ----
+@.
+@.    def user_from_remember_token
+@.      User.authenticate_with_salt(*remember_token)
+@.    end
+@.
+@.    def remember_token
+@.      cookies.signed[:remember_token] || [nil, nil]
+@.    end
+@.
+@.    def store_location
+@.      session[:return_to] = request.fullpath
+@.    end
+@.
+@.    def clear_return_to
+@.      session[:return_to] = nil
+@.    end
+@.end
+@.
+@.
+@.
+@.
+@.
+@.
+@.
+@0199:.
+@     return .

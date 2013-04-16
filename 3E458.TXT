@@ -1,0 +1,183 @@
+.Object Name: user                                         Define: Models_User
+*    Version: 0001
+*
+*===============================================================================
+:INCLUDE,ECAB$,B,0002 .
+@.
+@. TODO The validation portion of the model needs to be based on a table ----
+@. TODO Add error exception instead of having program die by going to label 0000 ----
+@. TODO Make the flash part of a common routine so that other models can use it ----
+@. Entry point from User_Controller
+@.
+@0001:.
+@.
+@     if <action> eq 'create','update' . ; gto 0199 .
+@. ---- User Model Validation ---- Exists
+@     ldv <validation>s7=failure .               Set flag to success will be set to failure if error
+@     if <name> eq '' ldv <valmsg>s50='Name can'tic$'t be blank' rsr 0200 . ; .
+@     if <email> eq '' ldv <valmsg>s50='Email can'tic$'t be blank' rsr 0200 . ; .
+@     if <password> eq '' ldv <valmsg>s50='Password can'tic$'t be blank' rsr 0200 . ; .
+@     if <passconfirm> ne <password> \
+        ldv <valmsg>s50='Confirmation password does not match' rsr 0200 . ; .
+@.
+@. ---- User Model Validation ---- Check the length
+@     def,p <sz>i3,<name> if <sz> gt 50 ldv <valmsg>s50='Name too long' rsr 0200 . ; .
+@     if <password> gt '' . ; gto 0003 .
+@     def,p <sz>i3,<password> if <sz> lt 6 \
+        ldv <valmsg>s50='Password must be at least 6 characters' rsr 0200 . ; .
+@     def,p <sz>i3,<password> if <sz> gt 40 \
+        ldv <valmsg>s50='Password can'tic$'t be more than 40 chars' rsr 0200 . ; .
+@.
+@. ---- User Model Validation ---- Email uniqueness
+@0003:if <action> eq 'create' . ; gto 0010 .
+@     fdr,DB_Users,,,lin1 '' 'email' 	,<email> ldv <valmsg>s50='Email already exists' rsr 0200 .
+@.
+@. ---- Save the error(s) if any ----
+@0010:if <flash> eq true ldv <validation>h7=failure rsr 0210 .                 Save to St Mgmt
+@     if <flash> eq false ldv <validation>h7=success .                         Passed all edits
+@     gto 0199 .                                                               Exit
+@.
+@. ---- Find users by their id ----
+@0020:.
+@     fdr,DB_Users,,,0000 '' 'id' 	,<id> .
+@     rln 'name','email' <name>s,<email>s .
+@     ldv,p <name>,<email> .
+@     gto 0199 .
+@.
+@. ---- Find users by their id ----
+@0025:.
+@     fdr,DB_Users,,,0000 '' 'id' 	,<uid> .
+@     rln 'name','email' <name>s,<email>s .
+@     ldv,p <name>,<email> .
+@     gto 0199 .
+@.
+@. ---- Authenticate user by their email and password ----
+@0030:.
+@     ldv <validation>h7=failure .
+@     if <email> eq '' ldv <valmsg>s50='Email can'tic$'t be blank' rsr 0200 . ; .
+@     if <password> eq '' ldv <valmsg>s50='Password can'tic$'t be blank' rsr 0200 . ; .
+@     call 0220 (<email>,<password>,<encrypt_pw>s64) .
+@.    fdr,DB_Users,,,0031 '' 'email' 	,<email> .
+@.    rln 'datecreate','timecreated' <date>h,<time>h .
+@.    ldv <encrypt_pw>s64 .
+@.    ldv,p <phrase>s256=<date>'--'<time>'--'<password> .
+@.    call,"SHA256" SHA256(<phrase>,<encrypt_pw>)  .
+@     fdr,DB_Users,,,lin1 '' 'email','encryptedpassword' 	,<email>,<encrypt_pw> gto lin+2 .
+@0031:ldv <valmsg>s50='Invalid email or password' rsr 0200 .
+@     if <flash> eq true . ; gto 0032 .
+@     rsr 0210 .                                                               Save to St Mgmt
+@     gto 0035 .
+@0032:if <flash> eq false ldv <validation>h7=success .                         Passed all edits
+@     rln 'id','name','email' <id>h,<name>s,<email>s .
+@     ldv,l <id> .
+@     call,<GSvcHndCab>,<GSvcHndDrw>,27 001* \
+       ('id',<id>,<*category>,'',<sessionid>,<GIceRepCab>,\
+       <msg>a3,<msgtxt>s256,<status>a1) .
+@.
+@. ---- Get gravatar ----
+@.    def,,lin1 <t>i2,<img_hash> gto 0035 .
+@.    call,"MD5" MD5(<email>,<img_hash>s256)  .
+@.rdb .
+@.    <img_hash>  .
+@.    call,<GSvcHndCab>,<GSvcHndDrw>,27 001* \
+       ('id',<id>,<*category>,'',<sessionid>,<GIceRepCab>,\
+       <msg>a3,<msgtxt>s256,<status>a1) .
+@.
+@0035:gto 0199 .
+@.
+@. ---- Create a new user ----
+@0060:.
+@     lzr,DB_Users <tlns>i7,,<hdg>i7 .
+@     fnd,DB_Users,<hdg>,lin1 'a@' 'id' 	,@ ,<nxtLn>i7 gto 0065 .
+@     lln,DB_Users <lln>i7 .
+@     lok,DB_Users .
+@     ln+,DB_Users,<lln>,500 .
+@     ulk .
+@     inc <lln> .
+@     inc,<lln> <nxtLn> .
+@.
+@0065:rdl,DB_Users,2 86-12 <id>h .
+@     ldv <encrypt_pw>s64 .
+@     ldv <date>h8=date11$,<time>h8=time$ .
+@     ldv,p <phrase>s256=<date>'--'<time>'--'<password> .
+@     call,"SHA256" SHA256(<phrase>,<encrypt_pw>)  .
+@     ldv,l <id> .
+@     lok,DB_Users .
+@     wrl,DB_Users,<nxtLn>,y 'id','name','email','encryptedpassword','date','time' \
+        	,<id>,<name>,<email>,<encrypt_pw>,<date>,<time> .
+@     ulk .
+@     call,<GSvcHndCab>,<GSvcHndDrw>,27 001* \
+       ('id',<id>,<*category>,'',<sessionid>,<GIceRepCab>,\
+       <msg>a3,<msgtxt>s256,<status>a1) .
+@     ldv <nxtuserid>h12=<id> .
+@     inc <nxtuserid> .
+@     lok,DB_Users .
+@     wrl,DB_Users,2,y 86-12 .,<nxtuserid> .
+@     ulk .
+@     cmu .
+@     ldv <validation>h7=success .
+@     ldv <valmsg>s50='Welcome to the Sample App!' rsr 0200 .
+@     rsr 0210 .                                                               Save to St Mgmt
+@     gto 0199 .                                                               Exit
+@.
+@. ---- Update existing user ----
+@0080:.
+@     fdr,DB_Users,,,0000 '' 'id' 	,<id> ,<idlin>i7 .
+@     lok,DB_Users .
+@     wrl,DB_Users,<idlin>,y 'name','email','dateupdate','timeupdated' \
+        	,<name>,<email>,date11$,time$ .
+@     ulk .
+@     ldv <validation>h7=success .
+@     ldv <valmsg>s50='Profile updated.' rsr 0200 .
+@     rsr 0210 .                                                               Save to St Mgmt
+@     gto 0199 .                                                               Exit
+@.
+@.
+@. ---- Get user name from id ----
+@0090:(<id>,<name>) .
+@     ldv,l <id> .
+@     fdr,DB_Users,,,0000 '' 'id' 	,<id> rln 'name' <name>s .
+@     return .
+@.
+@. ---- E X I T  S U B R O U T I N E ----
+@0199:.
+@     esr .
+@.
+@.
+@. ---- F L A S H - V A L I D A T I O N  (Success | Failure) ----
+@0200:.
+@     ldv <flash>h4=true .                                                     Set flag
+@     if <hdgs> eq done,(0205) .
+@     brk .
+.Flash Messages    Flash Type: <validation>
+*                                                                        .
+*msgs                                                                    .
+*========================================================================.
+@0205:.
+@     ldv <hdgs>h4=done .
+	<valmsg>
+@     esr .
+@.
+@. ---- Save the "flash" result to St. Mgmt ----
+@0210:brk .
+@     rnm -1 .
+@     call,<GSvcHndCab>,<GSvcHndDrw>,16 001('flash',<sessionid>,'-1',\
+        <GIceRepCab>,<msg>a3,<msgtxt>s256,<status>a1) .
+@. ---- Save the server side ssflash to true to trigger message ----
+@     call,<GSvcHndCab>,<GSvcHndDrw>,27 001* \
+       ('ssflash','True',<*category>,<*service>,<sessionid>,<GIceRepCab>,\
+       <msg>a3,<msgtxt>s256,<status>a1) .
+@     esr .
+@.
+@.
+@. ---- A U T H E N T I C A T E ----
+@. ---- Hash the submitted password with date and time to create unique key
+@. ---- the SHA2 secure hash function is called with the passphrase and returns
+@. ---- the 256bit encrypted password string
+@0220:(<email>,<password>,<encrypt_pw>) .
+@     fdr,DB_Users,,,0031 '' 'email' 	,<email> .
+@     rln 'datecreate','timecreated' <date>h,<time>h .
+@     ldv <encrypt_pw>s64 .
+@     ldv,p <phrase>s256=<date>'--'<time>'--'<password> .
+@     call,"SHA256" SHA256(<phrase>,<encrypt_pw>) .
+@     return .

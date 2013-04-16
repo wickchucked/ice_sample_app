@@ -1,0 +1,94 @@
+.Object Name: micropost                                    Define: Models_Micropost
+*    Version: 0001
+*
+*===============================================================================
+:INCLUDE,ECAB$,B,0002 .
+@.
+@0001:.
+@.
+@. ---- Micropost Model Validation ---- Exists
+@     if <action> eq 'create','update' . ; gto 0199 .
+@     ldv <validation>s7=failure .               Set flag to success will be set to failure if error
+@     if <micropost> eq '' ldv <valmsg>s50='Put some words on there me boy' rsr 0200 . ; .
+@     if <id> eq '' ldv <valmsg>s50='Unkown user' rsr 0200 . ; .
+@.
+@. ---- Micropost Model Validation ---- Check the length
+@     def,p <sz>i3,<micropost> if <sz> gt 205 ldv <valmsg>s50='Too many words!!' rsr 0200 . ; .
+@.
+@. ---- Save the error(s) if any ----
+@     if <flash> eq true ldv <validation>h7=failure rsr 0210 .                 Save to St Mgmt
+@     if <flash> eq false ldv <validation>h7=success .                         Passed all edits
+@     gto 0199 .                                                               Exit
+@.
+@. ---- Save a micropost ----
+@0020:.
+@     lzr,DB_Microposts <tlns>i7,,<hdg>i7 .
+@     fnd,DB_Microposts,<hdg>,lin1 'a@' 'id' 	,@ ,<nxtLn>i7 gto 0025 .
+@     lln,DB_Microposts <lln>i7 .
+@     lok,DB_Microposts .
+@     ln+,DB_Microposts,<lln>,500 .
+@     inc <lln> .
+@     inc,<lln> <nxtLn> .
+@     ulk .
+@.
+@0025:rdl,DB_Microposts,2 86-12 <postid>h .
+@     ldv <date>h8=date11$,<time>h8=time$ .
+@     ldv,l <postid> .
+@     lok,DB_Microposts .
+@     wrl,DB_Microposts,<nxtLn>,y 'id','postid','content','date','time' \
+        	,<id>,<postid>,<micropost>,<date>,<time> .
+@     ulk .
+@     inc <postid> .
+@     lok,DB_Microposts .
+@     wrl,DB_Microposts,2,y 86-12 .,<postid> .
+@     ulk .
+@     ldv <validation>h7=success .
+@     ldv <valmsg>s50='Micropost created!' rsr 0200 .
+@     rsr 0210 .                                                               Save to St Mgmt
+@     gto 0199 .                                                               Exit
+@.
+@. ---- Destroy micropost ----
+@0030:.
+@     ldv,l <delid>h12=<postid> .
+@     fdr,DB_Microposts,,,0000 '' 'postid' 	,<delid> ,<idlin>i7 .
+@     lok,DB_Microposts .
+@     ln-,DB_Microposts,<idlin>,1 .
+@     ulk .
+@     gto 0199 .                                                               Exit
+@.
+@. ---- Micropost feed ----
+@0040:.
+@     srh,DB_Microposts 'dn@l( )' 'content' 	,@ .
+@     sor,-0 '' 'datecreated','timecreate' 	,1dy11,2d .
+@     esr .
+@.
+@.
+@. ---- E X I T  S U B R O U T I N E ----
+@0199:.
+@     esr .
+@.
+@.
+@. ---- F L A S H - V A L I D A T I O N  (Success | Failure) ----
+@0200:.
+@     ldv <flash>h4=true .                                                     Set flag
+@     if <hdgs> eq done,(0205) .
+@     brk .
+.Flash Messages    Flash Type: <validation>
+*                                                                        .
+*msgs                                                                    .
+*========================================================================.
+@0205:.
+@     ldv <hdgs>h4=done .
+	<valmsg>
+@     esr .
+@.
+@. ---- Save the "flash" result to St. Mgmt ----
+@0210:brk .
+@     rnm -1 .
+@     call,<GSvcHndCab>,<GSvcHndDrw>,16 001('flash',<sessionid>,'-1',\
+        <GIceRepCab>,<msg>a3,<msgtxt>s256,<status>a1) .
+@. ---- Save the server side ssflash to true to trigger message ----
+@     call,<GSvcHndCab>,<GSvcHndDrw>,27 001* \
+       ('ssflash','True',<*category>,<*service>,<sessionid>,<GIceRepCab>,\
+       <msg>a3,<msgtxt>s256,<status>a1) .
+@     esr .

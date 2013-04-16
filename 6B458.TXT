@@ -1,0 +1,18 @@
+.Object Name: form_parts                                   Define: Table_Form_Parts
+*                    .            .form                .form        .form                                                   .form    .form                                                        .form                                    .
+*service             .action      .service             .action      .params                                                 .method  .class                                                       .id                                      .
+*====================.============.====================.============.=======================================================.========.============================================================.========================================.
+	users               	new         	                    	create      	                                                       	POST    	new_user                                                    	new_user                                	
+	users               	show        	                    	            	                                                       	        	                                                            	                                        	
+	users               	index       	                    	            	                                                       	        	                                                            	                                        	
+	users               	edit        	                    	update      	                                                       	POST    	edit_user                                                   	edit_user                               	
+	sessions            	signin      	                    	create      	                                                       	POST    	new_user                                                    	new_user                                	
+	pages               	home        	microposts          	create      	                                                       	POST    	new_micropost                                               	new_micropost                           	
+
+ XXXXXXXXXXXXXXXXXXXX ---- The calling service
+                      XXXXXXXXXXXX ---- The calling action
+                                                        XXXXXXXXXXXX ---- The action that will happen when the form is submitted
+                                                                     XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX ---- Path to submit the form
+                                                                                                                             XXXXXXXX ---- Form Method GET POST
+                                                                    This is used for the html tag class="someClass anotherClass" ---- XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                                                                                                    This is used for the html tag id="mustBeUnique" -----------------------------------------------XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX

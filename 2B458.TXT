@@ -1,0 +1,33 @@
+.Object Name: Define                                       Define: Table_Define
+*      .                  .                    .
+*      .Name              .Location            .Description
+*======.==================.====================.===============================.
+:DEFINE Table_Define       'ECAB$,B,0002'
+:DEFINE Table_Application  'ECAB$,B,0003'
+:DEFINE Table_View_Loc     'ECAB$,B,0004'
+:DEFINE Table_Global_Vars  'ECAB$,B,0005'
+:DEFINE Table_Form_Parts   'ECAB$,B,0006'
+:DEFINE Table_Routes       'ECAB$,B,0007'
+:DEFINE Table_Time_Ago     'ECAB$,B,0008'
+:DEFINE DB_Users           'ECAB$,C,0003'       User Database
+:DEFINE DB_Microposts      'ECAB$,C,0005'       Micropst Database
+:DEFINE View_              'ECAB$,D'            View Cab & Drawer
+:DEFINE View_Header        'ECAB$,D,0002 0001'  Header Partial for App
+:DEFINE View_Footer        'ECAB$,D,0003 0001'  Footer Partial for App
+:DEFINE View_Application   'ECAB$,D,0004 0001'  Application Layout
+:DEFINE View_Flash_Msgs    'ECAB$,D,0013 0001'
+:DEFINE Models_User        'ECAB$,E,0003'       User Model
+:DEFINE Models_Micropost   'ECAB$,E,0005'       Micropost Model
+:DEFINE Service_Execute    'ECAB$,F'            Allows to RSR to another service
+:DEFINE Service_Pages       ECAB$,F,0002 0005'  Allows to RSR to another service
+:DEFINE Service_Users       ECAB$,F,0003 0005'  Allows to RSR to another service
+:DEFINE Service_Sessions    ECAB$,F,0004 0005'  Allows to RSR to another service
+:DEFINE Helper_Sessions    'ECAB$,H,0004 0001'
+:DEFINE Shared_AppConfig   'ECAB$,I,0002'       Common Config Routine
+:DEFINE Shared_Ext_Files   'ECAB$,I,0003 0001'
+:DEFINE Shared_Redirect    'ECAB$,I,0004 0001'
+:DEFINE Shared_Save_Flash  'ECAB$,I,0004 0001'
+:DEFINE Shared_Sign_In     'ECAB$,I,0006 0001'
+:DEFINE Shared_Form_Parts  'ECAB$,I,0007 0001'
+:DEFINE Shared_Link_To     'ECAB$,I,0008 0001'
+:DEFINE Shared_Time_Ago    'ECAB$,I,0010 0001'

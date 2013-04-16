@@ -1,0 +1,84 @@
+.Object Name: timeAgoInWords                               Define: Helper_TimeAgo
+*    Version: 0002
+*
+*===============================================================================
+:INCLUDE,ECAB$,B,0002 .
+@. T E S T I N G
+@      ldv <dateFrom>h8=20111021,<timeFrom>h8=07:21:50,<timeInWords>s50 .
+@      call 0001 (<dateFrom>,<timeFrom>,<timeInWords>) .
+@.
+@. Input  - <dateFrom> date11 format
+@. Input  - <timeFrom> time$ format
+@. Output - <timeInWords>
+@.
+@. ---- Call Entry Point ----
+@0001:(<dateFrom>,<timeFrom>,<timeInWords>) .
+@.
+@     dc d11=today;time <datenow>h8,<timenow>h8 .
+@     ldv <days>i8,<y>i4,<m>i2,<d>i2 .
+@.
+@.    ---- Call system routine to return days months and years difference ----
+@     CALL,"LIB$DIFDATE" 0001* (<dateFrom>,<dateNow>,<days>,<y>,<m>,<d>) .
+@.
+@.    ---- Years in words ----
+@     if <y> gt 0 . ; gto 0005 .
+@     ldv,r <yy>h2=<y> .
+@     call 0200 (<yy>,'years',<timeInWords>) .
+@     return .
+@.
+@.    ---- Months in words ----
+@0005:if <m> gt 0 . ; gto 0010 .
+@     call 0200 (<m>,'months',<timeInWords>) .
+@     return .
+@.
+@.    ---- Weeks in words ----
+@0010:if <d> ge 7 . ; gto 0015 .
+@     if <d> ge 7  if <d> lt 14 ldv,r <d>h2=1 .
+@     if <d> ge 14 if <d> lt 21 ldv,r <d>h2=2 .
+@     if <d> ge 21 if <d> lt 28 ldv,r <d>h2=3 .
+@     if <d> ge 28 ldv <d>h2=4 . ; .
+@     call 0200 (<d>,'weeks',<timeInWords>) .
+@     return .
+@.
+@.    ---- Days in words ----
+@0015:if <d> gt 0 . ; gto 0020 .
+@     call 0200 (<d>,'days',<timeInWords>) .
+@     return .
+@.
+@.    ---- Hours in words ----
+@0020:.
+@     ldv <hhFrom>h2=<timeFrom>(1-2),<minFrom>h2=<timeFrom>(4-2) .
+@     ldv <hhNow>h2=<timeNow>(1-2),<minNow>h2=<timeNow>(4-2) .
+@.
+@.    ---- Same ----
+@     if <hhFrom> eq <hhNow>,(0025) .
+@.    ---- Low ----
+@     if <hhFrom> lt <hhNow> . ; gto 0021 .
+@     chg <hour>i2 <hhNow> - <hhFrom> gto 0022 .
+@.    ---- High ----
+@0021:chg <hour>i2 <hhFrom> - <hhNow> .
+@0022:juv,d <hour> .
+@     call 0200 (<hour>,'hours',<timeInWords>) .
+@     return .
+@.
+@.    ---- Minutes in words ----
+@0025:.
+@.
+@.    ---- Same ----
+@     if <minFrom> eq <minNow> ldv <min>h2=' 0' gto 0027 .                     Now!
+@.    ---- Low ----
+@     if <minFrom> lt <minNow> . ; gto 0021 .
+@     chg <min>i2 <minNow> - <minFrom> gto 0027 .
+@.    ---- High ----
+@0026:chg <min>i2 <minFrom> - <minNow> .
+@0027:juv,d <min> .
+@    :call 0200 (<min>,'minutes',<timeInWords>) .
+@     return .
+@.
+@.    ---- S U B R O U T I N E : Get time_ago_in_words ----
+@.
+@0200:(<num>,<key>,<timeInWords>) .
+@     ldv,r <num> .
+@     fdr,Table_Time_Ago,,,0000 '' 'n','key' 	,<num>,<key> .
+@     rln 'time' <timeInWords> .
+@     return .

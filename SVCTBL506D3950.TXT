@@ -1,0 +1,18 @@
+.Object Table  -  Category: sample_app_tables
+*                         .D.    .Svc     .Acc.        .T.   .Sty .S.Sty .Template.W.J.            .
+*Service Name        .Cab .w.Rpt .Typ     .ess.Exdate  .P.Net.Cab .t.Rpt .Type    .I.S.Run Called  .
+*====================.====.=.====.========.===.========.=.===.====.=.====.========.=.=.============.================================
+	define               458  B    2 RPT      DRT            On
+*define               Title =testtttttt
+	application          458  B    3 RPT      DRT            On
+*application          Title =testtttttt
+	view_locations       458  B    4 RPT      DRT            On
+*view_locations       Title =testtttttt
+	global_vars          458  B    5 RPT      DRT            On
+*global_vars          Title =testtttttt
+	form_parts           458  B    6 DYN      DRT            Off
+*form_parts           Title =Fills form Action, Method, Class, Name, Id ....
+	routes               458  B    7 DYN      DRT            Off
+*routes               Title =Fills form Action, Method, Class, Name, Id ....
+	time_ago_in_words    458  B    8 DYN      DRT            Off
+*time_ago_in_words    Title =Fills form Action, Method, Class, Name, Id ....

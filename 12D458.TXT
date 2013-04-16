@@ -1,0 +1,39 @@
+.Object Name: users_edit
+*    Version: 0001
+*
+*===============================================================================
+@0001:() . Entry point for ICE Service Handler
+@. ---- TODO Make form values inputable from a table some how ----
+@. ---- Based on the <category>,<service>, and <action> the following ----
+@. ---- <f_...> variables will be loaded with the correct values ---------
+@     call,Shared_Form_Parts (<category>,<service>,<action>,\
+                              <f_action>s500,<f_meth>h8,<f_class>s60,<f_id>s40) .
+    [h1]Edit User[/h1]
+
+    [form action="<f_action>" method="<f_meth>" class="<f_class>" id="<f_id>" /]
+      [div class="field"]
+        [label for="user_name"]Name[/label][br /]
+        [input id="user_name" name="name" size="30" type="text" value="<name>"
+         autocomplete="off" /]
+      [/div]
+      [div class="field"]
+        [label for="user_email"]Email[/label][br /]
+        [input id="user_email" name="email" size="30" type="text" value="<email>"
+         autocomplete="off" /]
+      [/div]
+      [div class="field"]
+        [label for="user_password"]Password[/label][br /]
+        [input id="user_password" name="password" size="30" type="password"
+               autocomplete="off" /]
+      [/div]
+      [div class="field"]
+        [label for="user_password_confirmation"]Confirmation[/label][br /]
+        [input id="user_password_confirmation" name="passconfirm"
+               size="30" type="password" autocomplete="off" /]
+      [/div]
+      [div class="actions"]
+        [input id="user_submit" name="commit" type="submit" value="Update" /]
+      [/div]
+        [input type="hidden" value="<id>" name="id" /]
+    [/form]
+@     esr .

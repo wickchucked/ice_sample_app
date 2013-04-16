@@ -1,0 +1,43 @@
+.Object Name: redirect                                     Define: Helper_Redirect
+*    Version: 0002
+*
+*===============================================================================
+@. TODO - Might need to add category here as well to re-direct to services outside of current CAT
+@. TODO - Error notification if FDR below is not able to find the combination
+@. ---- Call Entry Point ----
+@0001:.
+@     fdr,Table_Routes '' 'Service','Action' 	,<service>,<action> .
+@     rln 'rdservice','rdaction','rdinput' <rd_service>s,<rd_action>s,<rd_input>s .
+@.
+@. ---- Use the redirect service if defined ; otherwise fallback to the service that is passed ----
+@     if <rd_service> gt '' ldv,p <rd_service> . ; ldv,p <rd_service>s20=<service> .
+@. ---- Use the redirect action if defined ; otherwise fallback to the action that is passed ----
+@     if <rd_action> gt '' ldv,p <rd_action> . ; ldv,p <rd_action>h12=<action> .
+@.
+@. ---- Load the <rd_params> variable for the paramaters to pass in the re-direct ----
+@     if <rd_input> gt '' . ; ldv <rd_params>s0 gto 0005 .
+@     lcv 'b99' <rd_input> '&' ,<pocc>i7 .                          Find the total nubmer of params
+@     lcv 'b99' <rd_input> '&' ,<vocc>i7 .                          Find the total nubmer of vars
+@     ldv <pcnt>i7=0,<vcnt>i7=0 .                                   Initialize the variable counter
+@0002:if <pcnt> eq <pocc>,(0005) . ; inc <pcnt> .                   Are we done??
+@     lcv 'b<pcnt>' <rd_input> '&' <begkeypos>i7 .                  Find the start of the key
+@     lcv 'b<pcnt>' <rd_input> '=' <endkeypos>i7 inc <endkeypos> .  Find the end of the key
+@     chg <s>i7 <endkeypos> - <begkeypos> .                         Get the key length
+@     ldv,p <key>s<s>=<rd_input>(<begkeypos>-<endkeypos>) .         Load the key from <rd_input>
+@. ---- Check if value is empty ----
+@     if <rd_input>(<endkeypos>-1) eq '&' ldv <value>s0 gto 0003 .
+@. ---- Check if variable or string ----
+@     inc <vcnt> .                                                  Only increment if we have a var
+@     lcv 'b<vcnt>' <rd_input> '<' <begvarpos>i7 inc <begvarpos> .  Find the start of the value
+@     lcv 'b<vcnt>' <rd_input> '>' <endvarpos>i7 .                  Find the end of the value
+@     chg <varsize>i7 <endvarpos> - <begvarpos> .                   Determine the value size
+@     ldv,p <var_name>s12=<rd_input>(<begvarpos>-<varsize>) .       Get the variable name
+@     ldv,p <value>s256=<<var_name>> .                              Load the value from the <<name>>
+@0003:def,,lin1 <t>i2,<rd_params> ldv <rd_params>=<rd_params>(p)<key><value> gto lin+2 .
+@     ldv <rd_params>s998=<key><value> .
+@     gto 0002 .
+@0005:.
+@     ldv,p <rd_params> .
+@     ldv,p <rd_path>s998=<gurlcat><rd_service>'&action='<rd_action><rd_params> .
+    [meta http-equiv="refresh" CONTENT="0;URL=<rd_path>"]
+@     esr .
